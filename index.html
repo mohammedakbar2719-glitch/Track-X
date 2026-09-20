@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>TRACKX — Track your day. Build your streak. Become your best self.</title>
+  <meta name="description" content="A modern, premium daily life, habit, wellness, and productivity tracker designed to build your streaks and reach your full potential.">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Favicon Emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- Fullscreen Particle Canvas for Streak & Milestone Celebrations -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-container">
+    
+    <!-- ==========================================
+         DESKTOP SIDEBAR NAVIGATION
+         ========================================== -->
+    <aside class="app-sidebar" aria-label="Main Navigation">
+      <div class="brand-area">
+        <div class="brand-logo-icon">X</div>
+        <div class="brand-text-wrap">
+          <span class="brand-title">TRACKX</span>
+          <span class="brand-tagline">Track. Build. Become.</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#today" class="nav-item active" data-view="today" id="navSidebarToday">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Today</span>
+        </a>
+
+        <a href="#habits" class="nav-item" data-view="habits" id="navSidebarHabits">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Habits</span>
+        </a>
+
+        <a href="#progress" class="nav-item" data-view="progress" id="navSidebarProgress">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span>Progress</span>
+        </a>
+
+        <a href="#calendar" class="nav-item" data-view="calendar" id="navSidebarCalendar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Calendar</span>
+        </a>
+
+        <a href="#achievements" class="nav-item" data-view="achievements" id="navSidebarAchievements">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M4.5 4h15v5a7.5 7.5 0 0 1-15 0V4z"></path></svg>
+          <span>Achievements</span>
+        </a>
+
+        <a href="#showcase" class="nav-item showcase-nav-item" id="navSidebarShowcase" style="margin-top: 6px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon></svg>
+          <span>Product Tour</span>
+          <span class="showcase-nav-badge">10s</span>
+        </a>
+
+        <a href="#settings" class="nav-item" data-view="settings" id="navSidebarSettings" style="margin-top: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer User Profile -->
+      <div class="sidebar-footer">
+        <div class="user-mini-card" id="sidebarUserCard" title="Profile & Preferences">
+          <div class="user-avatar-circle" id="sidebarUserAvatar">✨</div>
+          <div class="user-details">
+            <span class="user-name" id="sidebarUserName">Alex Rivera</span>
+            <span class="user-streak-pill" id="sidebarUserStreak">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>
+              <span>5d streak</span>
+            </span>
+          </div>
+        </div>
+
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme" title="Switch Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==========================================
+         MAIN LAYOUT (Top Bar + View Containers)
+         ========================================== -->
+    <main class="main-layout" role="main">
+      
+      <!-- Top Application Bar -->
+      <header class="top-bar">
+        <!-- Mobile Brand (Hidden on Desktop) -->
+        <div class="mobile-brand">
+          <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 16px;">X</div>
+          <span class="brand-title" style="font-size: 17px;">TRACKX</span>
+        </div>
+
+        <!-- Date Navigator -->
+        <div class="date-navigator">
+          <button class="date-nav-btn" id="datePrevBtn" aria-label="Previous Day" title="Previous Day">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+
+          <div class="date-nav-center" id="dateCenterLabel" title="Click to view Calendar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span id="dateText">Today</span>
+            <button class="date-today-btn" id="dateTodayShortcut" style="display: none;">Today</button>
+          </div>
+
+          <button class="date-nav-btn" id="dateNextBtn" aria-label="Next Day" title="Next Day">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+
+        <!-- Top Actions -->
+        <div class="top-actions">
+          <!-- Product Tour Showcase Pill Button -->
+          <button class="btn-showcase-pill" id="topShowcaseBtn" title="Watch Product Showcase & Tour" aria-label="Watch Showcase">
+            <span class="showcase-pulse-dot"></span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+            <span class="desktop-text">Tour</span>
+          </button>
+
+          <button class="btn-primary" id="topQuickHabitBtn" onclick="document.getElementById('newHabitModal').classList.add('active')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span class="desktop-text">New Habit</span>
+          </button>
+
+          <!-- Notification Bell & Dropdown Popover -->
+          <div class="notification-bell-wrapper" id="notificationBellWrapper">
+            <button class="icon-btn-header" id="notificationBellBtn" aria-label="Notifications" aria-expanded="false" title="Notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+            </button>
+
+            <!-- Dropdown Popover Panel -->
+            <div class="notification-panel" id="notificationPanel" role="region" aria-label="Notifications Panel">
+              <div class="notification-panel-header">
+                <div class="notification-panel-title-wrap">
+                  <h3 class="notification-panel-title">Notifications</h3>
+                  <span class="notification-unread-count" id="notificationUnreadCount">0 new</span>
+                </div>
+                <button class="notification-mark-all-btn" id="notificationMarkAllBtn">Mark all as read</button>
+              </div>
+
+              <div class="notification-list" id="notificationList">
+                <!-- Dynamically populated by notifications.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Profile Avatar Shortcut -->
+          <button class="top-profile-btn" id="topProfileBtn" title="Profile & Preferences" aria-label="Profile and Preferences">
+            <span class="top-profile-avatar" id="topProfileAvatar">✨</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- View 1: Today Dashboard -->
+      <section id="viewToday" class="view-panel active"></section>
+
+      <!-- View 2: Habits Manager -->
+      <section id="viewHabits" class="view-panel"></section>
+
+      <!-- View 3: Progress & Analytics -->
+      <section id="viewProgress" class="view-panel"></section>
+
+      <!-- View 4: Calendar & History -->
+      <section id="viewCalendar" class="view-panel"></section>
+
+      <!-- View 5: Achievements -->
+      <section id="viewAchievements" class="view-panel"></section>
+
+      <!-- View 6: Settings -->
+      <section id="viewSettings" class="view-panel"></section>
+
+    </main>
+
+    <!-- ==========================================
+         MOBILE BOTTOM NAVIGATION (Visible on Mobile)
+         ========================================== -->
+    <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+      <a href="#today" class="mobile-nav-item active" data-view="today">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Today</span>
+      </a>
+
+      <a href="#habits" class="mobile-nav-item" data-view="habits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>Habits</span>
+      </a>
+
+      <a href="#progress" class="mobile-nav-item" data-view="progress">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Progress</span>
+      </a>
+
+      <a href="#calendar" class="mobile-nav-item" data-view="calendar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Calendar</span>
+      </a>
+
+      <a href="#settings" class="mobile-nav-item" data-view="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- ==========================================
+       MODAL: NEW HABIT CREATION
+       ========================================== -->
+  <div class="modal-overlay" id="newHabitModal" role="dialog" aria-modal="true" aria-labelledby="modalNewHabitTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalNewHabitTitle">Create New Habit</h2>
+        <button class="modal-close-btn" id="closeNewHabitModalBtn" aria-label="Close Modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="newHabitForm">
+        <div class="form-group">
+          <label class="form-label" for="habitNameInput">Habit Name</label>
+          <input type="text" id="habitNameInput" class="form-control" placeholder="e.g. Read 15 minutes, Cold Shower" required maxlength="40">
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label class="form-label">Category</label>
+          <select id="habitCategoryInput" class="form-control">
+            <option value="mind">Mind & Mindfulness 🧘</option>
+            <option value="body">Body & Health 🏃</option>
+            <option value="focus">Deep Focus & Productivity 🎯</option>
+            <option value="growth">Personal Growth 📖</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label class="form-label">Select Icon</label>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="icon-picker-item selected" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">✨</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">🧘</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">🏃</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">💧</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">📖</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">🎯</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">🌙</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">🍎</button>
+            <button type="button" class="icon-picker-item" style="padding: 8px 12px; border-radius: 8px; background: var(--bg-input); font-size: 20px;">⚡</button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label class="form-label" for="habitFrequencyInput">Frequency</label>
+          <select id="habitFrequencyInput" class="form-control">
+            <option value="daily">Every day</option>
+            <option value="weekdays">Weekdays only (Mon - Fri)</option>
+            <option value="weekends">Weekends only</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelNewHabitBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Create Habit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: SKILL DETAIL ANALYTICS DRILLDOWN
+       ========================================== -->
+  <div class="modal-overlay" id="skillDetailModal" role="dialog" aria-modal="true" aria-labelledby="modalSkillDetailTitle">
+    <div class="modal-dialog modal-dialog-lg">
+      <div class="modal-header">
+        <div class="skill-modal-title-wrap">
+          <span class="skill-modal-icon" id="skillModalIcon">🎯</span>
+          <div>
+            <h2 class="modal-title" id="modalSkillDetailTitle">Skill Analytics</h2>
+            <span class="skill-modal-subtitle" id="skillModalSubtitle">Personal Development Deep Dive</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeSkillDetailModalBtn" aria-label="Close Modal" title="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" id="skillModalBody">
+        <!-- Dynamically rendered by progress.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: DAILY PERFORMANCE SUMMARY
+       ========================================== -->
+  <div class="modal-overlay" id="dailySummaryModal" role="dialog" aria-modal="true" aria-labelledby="dailySummaryTitle">
+    <div class="modal-dialog modal-dialog-summary">
+      <div class="modal-header">
+        <div class="summary-modal-title-wrap">
+          <span class="summary-modal-icon">📊</span>
+          <div>
+            <h2 class="modal-title" id="dailySummaryTitle">Daily Summary</h2>
+            <span class="summary-modal-subtitle" id="dailySummarySubtitle">Today's personal growth & momentum recap</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeDailySummaryModalBtn" aria-label="Close Modal" title="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" id="dailySummaryModalBody">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ACHIEVEMENT UNLOCK CELEBRATION
+       ========================================== -->
+  <div class="modal-overlay" id="achievementUnlockModal" role="dialog" aria-modal="true" aria-labelledby="unlockModalTitle">
+    <div class="modal-dialog modal-dialog-celebration">
+      <div class="unlock-modal-content">
+        <div class="unlock-icon-container">
+          <div class="unlock-particle-ring"></div>
+          <span class="unlock-trophy-badge" id="unlockModalBadge">🏆</span>
+        </div>
+        
+        <span class="unlock-eyebrow">ACHIEVEMENT UNLOCKED</span>
+        <h2 class="unlock-title" id="unlockModalTitle">Momentum Builder</h2>
+        <p class="unlock-desc" id="unlockModalDesc">7-day habit streak</p>
+        
+        <div class="unlock-reward-badge" id="unlockModalReward">
+          <span>+100 XP</span>
+        </div>
+
+        <div class="unlock-level-progress-wrap" id="unlockModalLevelWrap"></div>
+
+        <button class="btn btn-primary unlock-continue-btn" id="unlockModalContinueBtn">
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: PRODUCT VIDEO SHOWCASE & TOUR
+       ========================================== -->
+  <div class="modal-overlay" id="showcaseModal" role="dialog" aria-modal="true" aria-labelledby="showcaseModalTitle">
+    <div class="modal-dialog modal-dialog-showcase">
+      <div class="modal-header">
+        <div class="showcase-title-wrap">
+          <span class="showcase-badge-icon">🎬</span>
+          <div>
+            <h2 class="modal-title" id="showcaseModalTitle">TRACKX Showcase</h2>
+            <span class="modal-subtitle">Official 10-Second High Definition Product Tour</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeShowcaseModalBtn" aria-label="Close Showcase Modal" title="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Custom Cinematic Player Container -->
+      <div class="showcase-player-box" id="showcasePlayerBox">
+        <div class="showcase-video-crop-container">
+          <video 
+            id="showcaseVideo" 
+            class="showcase-video-element" 
+            src="video/Track_X_promotional_ad_sequence_20260920123514.mp4" 
+            playsinline 
+            preload="auto">
+          </video>
+          
+          <!-- Watermark Elimination System: Corner Shield + Official Brand Badge -->
+          <div class="showcase-watermark-shield" aria-hidden="true"></div>
+          <div class="showcase-brand-watermark-pill" aria-hidden="true">
+            <span class="brand-watermark-dot">⚡</span>
+            <span class="brand-watermark-text">TRACKX</span>
+          </div>
+        </div>
+
+        <!-- Center Play Overlay (visible when paused or ended) -->
+        <div class="showcase-center-overlay" id="showcaseCenterOverlay">
+          <button class="showcase-center-play-btn" id="showcaseCenterPlayBtn" aria-label="Play Video">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="7 5 19 12 7 19 7 5"></polygon></svg>
+          </button>
+        </div>
+
+        <!-- Custom Player Controls Bar -->
+        <div class="showcase-controls-bar">
+          <!-- Progress bar scrubber -->
+          <div class="showcase-progress-bar" id="showcaseProgressBar" role="slider" aria-label="Seek Video" tabindex="0">
+            <div class="showcase-progress-fill" id="showcaseProgressFill"></div>
+          </div>
+
+          <div class="showcase-controls-row">
+            <div class="showcase-controls-left">
+              <button class="showcase-ctrl-btn" id="showcasePlayBtn" aria-label="Play or Pause" title="Play (Space)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              </button>
+              
+              <button class="showcase-ctrl-btn" id="showcaseReplayBtn" aria-label="Replay Video" title="Replay">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              </button>
+
+              <span class="showcase-time-display" id="showcaseTimeDisplay">0:00 / 0:10</span>
+            </div>
+
+            <div class="showcase-controls-right">
+              <button class="showcase-ctrl-btn" id="showcaseMuteBtn" aria-label="Mute or Unmute" title="Mute (M)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              </button>
+
+              <button class="showcase-ctrl-btn" id="showcaseFullscreenBtn" aria-label="Toggle Fullscreen" title="Fullscreen (F)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Value Pillars Below Video -->
+      <div class="showcase-features-grid">
+        <div class="showcase-feature-item">
+          <div class="showcase-feature-icon">🎯</div>
+          <div class="showcase-feature-content">
+            <h5>Habit Mastery</h5>
+            <p>Track Mind, Body, Focus & Growth daily</p>
+          </div>
+        </div>
+
+        <div class="showcase-feature-item">
+          <div class="showcase-feature-icon">🔥</div>
+          <div class="showcase-feature-content">
+            <h5>Streak Engine</h5>
+            <p>Visual streaks, confetti & momentum score</p>
+          </div>
+        </div>
+
+        <div class="showcase-feature-item">
+          <div class="showcase-feature-icon">📊</div>
+          <div class="showcase-feature-content">
+            <h5>Deep Analytics</h5>
+            <p>14-day completion trends & milestone XP</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Universal Vanilla JavaScript Architecture (Works locally via file:// and http://) -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/insights.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/showcase.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/habits.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
